@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Portafolio Buda</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Calculadora de Portafolio Buda</h1>
+
+      <label for="fiat"><strong>Moneda Fiat:</strong></label>
+      <select id="fiat">
+        <option value="CLP">CLP - Peso Chileno</option>
+        <option value="PEN">PEN - Sol Peruano</option>
+        <option value="COP">COP - Peso Colombiano</option>
+      </select>
+
+      <h3 style="margin-top: 20px;">Criptomonedas:</h3>
+      <div id="portfolio-list"></div>
+
+      <button id="add-crypto">+ Agregar Criptomoneda</button>
+      <button id="calculate">Calcular Valor</button>
+
+      <div id="result"></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

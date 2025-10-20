@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { getMarketPrice } from "../services/buda.service";
 import { PortfolioRequest } from "../types/portfolio";
 
+const SUPPORTED_FIAT = ["CLP", "PEN", "COP"];
+
 export const calculatePortfolioValue = async (
   req: Request,
   res: Response
@@ -17,8 +19,17 @@ export const calculatePortfolioValue = async (
       return;
     }
 
+    if (!SUPPORTED_FIAT.includes(fiat_currency.toUpperCase())) {
+      res.status(400).json({
+        success: false,
+        message: `La moneda fiat '${fiat_currency}' no es soportada. Usa CLP, PEN o COP.`,
+      });
+      return;
+    }
+
     let totalValue = 0;
-    const results: Record<string, number> = {};
+    const breakdown: Record<string, number> = {};
+    const errors: string[] = [];
 
     for (const [symbol, amount] of Object.entries(portfolio)) {
       const marketId = `${symbol.toLowerCase()}-${fiat_currency.toLowerCase()}`;
@@ -26,23 +37,37 @@ export const calculatePortfolioValue = async (
 
       if (price) {
         const value = amount * price;
-        results[symbol] = value;
+        breakdown[symbol] = value;
         totalValue += value;
       } else {
-        results[symbol] = 0;
+        breakdown[symbol] = 0;
+        errors.push(`No se encontró el mercado ${marketId}`);
       }
+    }
+
+    if (errors.length > 0) {
+      res.status(207).json({
+        success: false,
+        message: "Algunos mercados no se pudieron obtener correctamente.",
+        errors,
+        fiat_currency,
+        total_value: totalValue,
+        breakdown,
+      });
+      return;
     }
 
     res.status(200).json({
       success: true,
       fiat_currency,
       total_value: totalValue,
-      breakdown: results,
+      breakdown,
     });
   } catch (error: any) {
+    console.error("Error al calcular portafolio:", error);
     res.status(500).json({
       success: false,
-      message: "Error al calcular el portafolio.",
+      message: "Error interno al calcular el portafolio.",
       error: error.message,
     });
   }
