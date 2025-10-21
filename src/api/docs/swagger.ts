@@ -1,4 +1,4 @@
-export default {
+const swaggerDocument = {
   openapi: "3.0.0",
   info: {
     title: "Buda Portfolio API",
@@ -21,9 +21,7 @@ export default {
       get: {
         summary: "Verifica que la API esté funcionando",
         responses: {
-          200: {
-            description: "La API responde correctamente",
-          },
+          200: { description: "La API responde correctamente" },
         },
       },
     },
@@ -41,16 +39,9 @@ export default {
                 properties: {
                   portfolio: {
                     type: "object",
-                    example: {
-                      BTC: 0.5,
-                      ETH: 2.0,
-                      USDT: 1000,
-                    },
+                    example: { BTC: 0.5, ETH: 2.0, USDT: 1000 },
                   },
-                  fiat_currency: {
-                    type: "string",
-                    example: "CLP",
-                  },
+                  fiat_currency: { type: "string", example: "CLP" },
                 },
               },
             },
@@ -80,23 +71,15 @@ export default {
               },
             },
           },
-          400: {
-            description: "Error de validación o moneda no soportada",
-          },
-          500: {
-            description: "Error interno del servidor o de conexión a Buda.com",
-          },
         },
       },
     },
     "/markets": {
       get: {
         summary: "Obtiene todos los mercados disponibles desde Buda.com",
-        description:
-          "Devuelve una lista de mercados disponibles (ejemplo: BTC-CLP, ETH-BTC, etc.) desde la API pública de Buda.com.",
         responses: {
           200: {
-            description: "Lista de mercados obtenida correctamente",
+            description: "Lista de mercados disponibles",
             content: {
               "application/json": {
                 schema: {
@@ -110,7 +93,7 @@ export default {
                           id: { type: "string", example: "BTC-CLP" },
                           name: {
                             type: "string",
-                            example: "BTC / CLP",
+                            example: "Bitcoin / Peso Chileno",
                           },
                         },
                       },
@@ -120,11 +103,10 @@ export default {
               },
             },
           },
-          500: {
-            description: "Error al obtener los mercados desde Buda.com",
-          },
         },
       },
     },
   },
 };
+
+export default swaggerDocument;
