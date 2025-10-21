@@ -12,7 +12,7 @@ router.use(
   swaggerUi.serve,
   swaggerUi.setup(doc, {
     customCssUrl:
-      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css",
+      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.11.1/swagger-ui.min.css",
   })
 );
 
