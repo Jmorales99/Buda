@@ -80,6 +80,49 @@ export default {
               },
             },
           },
+          400: {
+            description: "Error de validación o moneda no soportada",
+          },
+          500: {
+            description: "Error interno del servidor o de conexión a Buda.com",
+          },
+        },
+      },
+    },
+    "/markets": {
+      get: {
+        summary: "Obtiene todos los mercados disponibles desde Buda.com",
+        description:
+          "Devuelve una lista de mercados disponibles (ejemplo: BTC-CLP, ETH-BTC, etc.) desde la API pública de Buda.com.",
+        responses: {
+          200: {
+            description: "Lista de mercados obtenida correctamente",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    markets: {
+                      type: "array",
+                      items: {
+                        type: "object",
+                        properties: {
+                          id: { type: "string", example: "BTC-CLP" },
+                          name: {
+                            type: "string",
+                            example: "BTC / CLP",
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          500: {
+            description: "Error al obtener los mercados desde Buda.com",
+          },
         },
       },
     },
